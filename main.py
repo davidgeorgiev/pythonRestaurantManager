@@ -8,6 +8,8 @@ from mySqlUpdater import mySqlUpdater
 from CustomerManager import CustomerManager
 from CustomerAdder import CustomerAdder
 from TableAdder import TableAdder
+from threading import Thread
+from time import sleep
 
 class Frame(wx.Frame):
 	def __init__(self):
@@ -45,10 +47,18 @@ class Frame(wx.Frame):
 
 		box = wx.BoxSizer(wx.VERTICAL)
 
-		m_text = wx.StaticText(panel, -1, "Hello World!")
+		m_text = wx.StaticText(panel, -1, "Information")
 		m_text.SetFont(wx.Font(14, wx.SWISS, wx.NORMAL, wx.BOLD))
 		m_text.SetSize(m_text.GetBestSize())
 		box.Add(m_text, 0, wx.ALL, 10)
+		
+		self.num_of_customers_button = wx.Button(panel, wx.ID_ANY, "")
+		self.num_of_customers_button.Bind(wx.EVT_BUTTON, self.theDBConnector.RunTest)
+		box.Add(self.num_of_customers_button, 0, wx.ALL, 10)
+		
+		self.num_of_tables_button = wx.Button(panel, wx.ID_ANY, "")
+		self.num_of_tables_button.Bind(wx.EVT_BUTTON, self.theDBConnector.RunTest)
+		box.Add(self.num_of_tables_button, 0, wx.ALL, 10)
 
 		languages = ['C', 'C++', 'Python', 'Java', 'Perl'] 
 		self.combo = wx.ComboBox(panel,choices = languages) 
@@ -65,6 +75,17 @@ class Frame(wx.Frame):
 
 		panel.SetSizer(box)
 		panel.Layout()
+		
+		thread = Thread(target = self.UpdateInformationThread, args = ())
+		thread.start()
+		
+	def UpdateInformationThread(self):
+		while(1):
+			self.OnUpdateInformation()
+			sleep(2)
+	def OnUpdateInformation(self):
+		self.num_of_customers_button.SetLabel('Number of customers: '+str(self.theDBConnector.GetNumOfCustomers()))
+		self.num_of_tables_button.SetLabel('Number of tables: '+str(self.theDBConnector.GetNumOfTables()))
 
 	def OnAddCustomer(self,event):
 		theCustomerAdder = CustomerAdder(self)

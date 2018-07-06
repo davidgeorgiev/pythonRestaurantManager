@@ -24,5 +24,17 @@ class DBConnector():
 		cur.execute("INSERT INTO `DBrestaurant`.`tables` (`chairsNumber`,`ifSmoking`) VALUES ("+dataList[0]+","+dataList[1]+");")
 		self.db.commit()
 		cur.close()
+	def GetNumOfCustomers(self):
+		cur = self.db.cursor()
+		cur.execute("select COUNT(customerID) from customers;")
+		for row in cur.fetchall():
+			self.lastResult = str(row[0])
+		return self.lastResult
+	def GetNumOfTables(self):
+		cur = self.db.cursor()
+		cur.execute("select COUNT(tableID) from tables;")
+		for row in cur.fetchall():
+			self.lastResult = str(row[0])
+		return self.lastResult
 	def __exit__():
 		self.db.close()
