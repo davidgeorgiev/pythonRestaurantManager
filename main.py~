@@ -82,7 +82,7 @@ class Frame(wx.Frame):
 	def UpdateInformationThread(self):
 		while(1):
 			self.OnUpdateInformation()
-			sleep(1)
+			sleep(2)
 	def OnUpdateInformation(self):
 		self.num_of_customers_button.SetLabel('Number of customers: '+str(self.theDBConnector.GetNumOfCustomers()))
 		self.num_of_tables_button.SetLabel('Number of tables: '+str(self.theDBConnector.GetNumOfTables()))

@@ -27,10 +27,15 @@ class TableImageWindow(wx.Frame):
 		self.panel.Layout()
 	def UpdateImageBox(self,event,val):
 		if(val == 1):
-			address = "Tables/3/1.png"
+			address = "Tables/5/1.png"
 		else:
-			num_of_chairs = self.parent.ReadCoiceFieldsAndGetResult()
-			address = "Tables/3/"+str(num_of_chairs[0])[1]+".png"
+			CoiceFieldsData = self.parent.ReadCoiceFieldsAndGetResult()
+			if(CoiceFieldsData[1]=='"yes"'):
+				subfolder = "4"
+			else:
+				subfolder = "5"
+				
+			address = "Tables/"+subfolder+"/"+str(CoiceFieldsData[0])[1]+".png"
 		
 		self.myPng = wx.Image(address, wx.BITMAP_TYPE_PNG)
 		self.myPngBmp = wx.StaticBitmap(self, 0, wx.BitmapFromImage(self.myPng), (35, 35), (self.myPng.GetWidth(), self.myPng.GetHeight()))

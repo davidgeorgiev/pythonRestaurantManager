@@ -19,7 +19,7 @@ class TableImageWindow(wx.Frame):
 		self.ImageBox = wx.BoxSizer(wx.VERTICAL)
 		self.ImageBox.Add(self.myPngBmp, 0, wx.ALL, 0)
 		
-		self.box.Add(self.ImageBox, 0, wx.ALL, 0)
+		self.box.Add(self.ImageBox, 0, wx.ALL, 35)
 		
 		
 		
@@ -33,7 +33,7 @@ class TableImageWindow(wx.Frame):
 			address = "Tables/3/"+str(num_of_chairs[0])[1]+".png"
 		
 		self.myPng = wx.Image(address, wx.BITMAP_TYPE_PNG)
-		self.myPngBmp = wx.StaticBitmap(self, 0, wx.BitmapFromImage(self.myPng), (30, 30), (self.myPng.GetWidth(), self.myPng.GetHeight()))
+		self.myPngBmp = wx.StaticBitmap(self, 0, wx.BitmapFromImage(self.myPng), (35, 35), (self.myPng.GetWidth(), self.myPng.GetHeight()))
 	def OnClose(self, event):
 		self.parent.Destroy()
 		self.Destroy()
