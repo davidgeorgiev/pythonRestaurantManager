@@ -8,14 +8,15 @@ from mySqlUpdater import mySqlUpdater
 from CustomerManager import CustomerManager
 from CustomerAdder import CustomerAdder
 from TableAdder import TableAdder
-from threading import Thread
-from time import sleep
+from HtmlViewer import HtmlViewer
+from HtmlCreator import HtmlCreator
 
 class Frame(wx.Frame):
 	def __init__(self):
 		wx.Frame.__init__(self, None, title="Restaurant Manager v0.1", pos=(150,150), size=(350,400))
 		self.theDBConnector = DBConnector(self)
 		self.mySqlUpdater = mySqlUpdater(self)
+		self.myHtmlViewer = HtmlViewer(self)
 
 		panel = wx.Panel(self)
 		self.Bind(wx.EVT_CLOSE, self.OnClose)
@@ -57,7 +58,7 @@ class Frame(wx.Frame):
 		box.Add(self.num_of_customers_button, 0, wx.ALL, 10)
 		
 		self.num_of_tables_button = wx.Button(panel, wx.ID_ANY, "")
-		self.num_of_tables_button.Bind(wx.EVT_BUTTON, self.theDBConnector.RunTest)
+		self.num_of_tables_button.Bind(wx.EVT_BUTTON, self.OnTablesButtonClicked)
 		box.Add(self.num_of_tables_button, 0, wx.ALL, 10)
 
 		languages = ['C', 'C++', 'Python', 'Java', 'Perl'] 
@@ -76,14 +77,14 @@ class Frame(wx.Frame):
 		panel.SetSizer(box)
 		panel.Layout()
 		
-		thread = Thread(target = self.UpdateInformationThread, args = ())
-		thread.start()
-		
-	def UpdateInformationThread(self):
-		while(1):
-			self.OnUpdateInformation()
-			sleep(2)
-	def OnUpdateInformation(self):
+		self.UpdateInformation()
+	def OnTablesButtonClicked(self,event):
+		self.myHtmlViewer.Destroy()
+		theHtmlCreator = HtmlCreator(self)
+		theHtmlCreator.CreateTablesHtml(self.theDBConnector.GetInfoForTables())
+		self.myHtmlViewer = HtmlViewer(self)
+		self.myHtmlViewer.Show()
+	def UpdateInformation(self):
 		self.num_of_customers_button.SetLabel('Number of customers: '+str(self.theDBConnector.GetNumOfCustomers()))
 		self.num_of_tables_button.SetLabel('Number of tables: '+str(self.theDBConnector.GetNumOfTables()))
 

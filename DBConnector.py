@@ -19,11 +19,13 @@ class DBConnector():
 		cur.execute("INSERT INTO `DBrestaurant`.`customers` (`firstName`,`middleName`,`lastName`,`email`,`phone`,`address`) VALUES ("+dataList[0]+","+dataList[1]+","+dataList[2]+","+dataList[3]+","+dataList[4]+","+dataList[5]+");")
 		self.db.commit()
 		cur.close()
+		self.parent.UpdateInformation()
 	def AddTable(self,dataList):
 		cur = self.db.cursor()
 		cur.execute("INSERT INTO `DBrestaurant`.`tables` (`chairsNumber`,`ifSmoking`) VALUES ("+dataList[0]+","+dataList[1]+");")
 		self.db.commit()
 		cur.close()
+		self.parent.UpdateInformation()
 	def GetNumOfCustomers(self):
 		cur = self.db.cursor()
 		cur.execute("select COUNT(customerID) from customers;")
@@ -36,5 +38,12 @@ class DBConnector():
 		for row in cur.fetchall():
 			self.lastResult = str(row[0])
 		return self.lastResult
+	def GetInfoForTables(self):
+		FullInfoAboutTables = list()
+		cur = self.db.cursor()
+		cur.execute("select * from tables order by ifSmoking asc;")
+		for row in cur.fetchall():
+			FullInfoAboutTables.append([str(row[0]),str(row[1]),str(row[2])])
+		return FullInfoAboutTables
 	def __exit__():
 		self.db.close()
