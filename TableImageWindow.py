@@ -12,20 +12,28 @@ class TableImageWindow(wx.Frame):
 		self.Bind(wx.EVT_CLOSE, self.OnClose)
 		self.InputChoices = list()
 		
-		box = wx.BoxSizer(wx.HORIZONTAL)
+		self.box = wx.BoxSizer(wx.HORIZONTAL)
 
-		box.Add(self.CreateImageBox(), 0, wx.ALL, 10)
+		
+		self.UpdateImageBox(None,1)
+		self.ImageBox = wx.BoxSizer(wx.VERTICAL)
+		self.ImageBox.Add(self.myPngBmp, 0, wx.ALL, 0)
+		
+		self.box.Add(self.ImageBox, 0, wx.ALL, 35)
 		
 		
 		
-		self.panel.SetSizer(box)
+		self.panel.SetSizer(self.box)
 		self.panel.Layout()
-	def CreateImageBox(self):
-		ImageBox = wx.BoxSizer(wx.VERTICAL)
-		myPng = wx.Image("img1.png", wx.BITMAP_TYPE_PNG)
-		myPng = wx.StaticBitmap(self, 0, wx.BitmapFromImage(myPng), (1, 1), (myPng.GetWidth(), myPng.GetHeight()))
-		ImageBox.Add(myPng, 0, wx.ALL, 0)
-		return ImageBox	
+	def UpdateImageBox(self,event,val):
+		if(val == 1):
+			address = "Tables/3/1.png"
+		else:
+			num_of_chairs = self.parent.ReadCoiceFieldsAndGetResult()
+			address = "Tables/3/"+str(num_of_chairs[0])[1]+".png"
+		
+		self.myPng = wx.Image(address, wx.BITMAP_TYPE_PNG)
+		self.myPngBmp = wx.StaticBitmap(self, 0, wx.BitmapFromImage(self.myPng), (35, 35), (self.myPng.GetWidth(), self.myPng.GetHeight()))
 	def OnClose(self, event):
 		self.parent.Destroy()
 		self.Destroy()

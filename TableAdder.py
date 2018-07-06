@@ -9,7 +9,6 @@ class TableAdder(wx.Frame):
 		wx.Frame.__init__(self, None, title="New Table", pos=(150,150), size=(350,200))
 		self.parent = parent
 		self.theTableImageWindow = TableImageWindow(self)
-		self.theTableImageWindow.Show()
 
 		self.panel = wx.Panel(self)
 		self.Bind(wx.EVT_CLOSE, self.OnClose)
@@ -23,7 +22,7 @@ class TableAdder(wx.Frame):
 		box.Add(m_text, 0, wx.ALL, 10)
 
 		self.lists = list()
-		self.lists.append(self.GetListOfChoicesForNumberOfTables(10))
+		self.lists.append(self.GetListOfChoicesForNumberOfTables(9))
 		box.Add(self.GetNewChoiceField("number of chairs",0,self.lists[0]), 0, wx.ALL, 0)
 		self.lists.append(["no","yes"])
 		box.Add(self.GetNewChoiceField("smoking",1,self.lists[1]), 0, wx.ALL, 0)
@@ -36,6 +35,7 @@ class TableAdder(wx.Frame):
 		
 		self.panel.SetSizer(box)
 		self.panel.Layout()
+		self.theTableImageWindow.Show()
 	def GetListOfChoicesForNumberOfTables(self,max_chairs):
 		return_list = list()
 		for i in range(1,max_chairs):
@@ -60,7 +60,7 @@ class TableAdder(wx.Frame):
 		FirstNamebox.Add(m_text, 0, wx.ALL, 10)
 		myChoice = wx.Choice(self.panel,choices = list_of_choices)
 		self.InputChoices.append(myChoice)
-		#myChoice.Bind(wx.EVT_CHOICE, self.OnPaint)
+		myChoice.Bind(wx.EVT_CHOICE, lambda evt : self.theTableImageWindow.UpdateImageBox(evt,0))
 		FirstNamebox.Add(self.InputChoices[index], 0, wx.ALL, 5)
 		return FirstNamebox
 	
