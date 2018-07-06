@@ -15,7 +15,7 @@ CREATE TABLE `DBrestaurant`.`customers` (
 CREATE TABLE `DBrestaurant`.`tables` (
 	`tableID` INT UNSIGNED NOT NULL AUTO_INCREMENT,
 	`chairsNumber` INT UNSIGNED NOT NULL,
-	`ifSmoking` VARCHAR(20) NOT NULL,
+	`ifSmoking` INT(11) NOT NULL,
 	PRIMARY KEY (`tableID`)
 ) ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;
 

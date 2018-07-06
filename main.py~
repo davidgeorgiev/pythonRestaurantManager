@@ -7,7 +7,6 @@ from DBConnector import DBConnector
 from mySqlUpdater import mySqlUpdater
 from CustomerManager import CustomerManager
 from CustomerAdder import CustomerAdder
-from TableAdder import TableAdder
 
 class Frame(wx.Frame):
 	def __init__(self):
@@ -29,8 +28,6 @@ class Frame(wx.Frame):
 		
 		MenuAddCustomerItem = fileMenu.Append(wx.ID_ANY, 'Add Customer', 'Adding new Customer')
 		self.Bind(wx.EVT_MENU, self.OnAddCustomer, MenuAddCustomerItem)
-		MenuAddTableItem = fileMenu.Append(wx.ID_ANY, 'Add Table', 'Adding new Table')
-		self.Bind(wx.EVT_MENU, self.OnAddTable, MenuAddTableItem)
 
 		sqlMenu = wx.Menu()
 		menubar.Append(sqlMenu, '&Sql')
@@ -69,10 +66,6 @@ class Frame(wx.Frame):
 	def OnAddCustomer(self,event):
 		theCustomerAdder = CustomerAdder(self)
 		theCustomerAdder.Show()
-		
-	def OnAddTable(self,event):
-		theTableAdder = TableAdder(self)
-		theTableAdder.Show()
 
 	def OnClose(self, event):
 		self.Destroy()

@@ -19,10 +19,5 @@ class DBConnector():
 		cur.execute("INSERT INTO `DBrestaurant`.`customers` (`firstName`,`middleName`,`lastName`,`email`,`phone`,`address`) VALUES ("+dataList[0]+","+dataList[1]+","+dataList[2]+","+dataList[3]+","+dataList[4]+","+dataList[5]+");")
 		self.db.commit()
 		cur.close()
-	def AddTable(self,dataList):
-		cur = self.db.cursor()
-		cur.execute("INSERT INTO `DBrestaurant`.`tables` (`chairsNumber`,`ifSmoking`) VALUES ("+dataList[0]+","+dataList[1]+");")
-		self.db.commit()
-		cur.close()
 	def __exit__():
 		self.db.close()
